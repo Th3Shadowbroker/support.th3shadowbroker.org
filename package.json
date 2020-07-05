@@ -1,0 +1,18 @@
+{
+  "name": "support.th3shadowbroker.org",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "bootstrap": "^4.5.0",
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-cli": "^2.3.0",
+    "gulp-haml": "^1.0.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-sass": "^4.1.0",
+    "jquery": "^3.5.1",
+    "node-sass": "^4.14.1",
+    "popper.js": "^1.16.1"
+  }
+}
