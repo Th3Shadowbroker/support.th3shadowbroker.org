@@ -35,6 +35,11 @@ function bundleScss(cb) {
             .pipe(dest(`${__dirname}/dist/css`));
 }
 
+function copyImages(cb) {
+    return src("src/img/*")
+        .pipe(dest(`${__dirname}/dist/img`));
+}
+
 function compileHaml(cb) {
     let hamlLang = require("gulp-haml");
 
@@ -55,7 +60,7 @@ function bootstrap() {
         },
 
         bJs: function(cb) {
-            return src("node_modules/bootstrap/dist/js/bootstrap.bundle.min.js*")
+            return src("node_modules/bootstrap/dist/js/bootstrap.min.js*")
                 .pipe(dest(`${__dirname}/dist/js`));
         },
 
@@ -72,18 +77,46 @@ function bootstrap() {
     }
 }
 
+function fortawesome() {
+    return {
+
+        fontawesomeBrands: function(cb) {
+            let sourceMap = require("gulp-sourcemaps");
+            let cleanCss = require("gulp-clean-css");
+            let rename = require("gulp-rename");
+
+            return src("node_modules/@fortawesome/fontawesome-free/css/all.css")
+                   .pipe(sourceMap.init())
+                   .pipe(cleanCss())
+                   .pipe(rename({suffix: ".min"}))
+                   .pipe(sourceMap.write("./"))
+                   .pipe(dest(`${__dirname}/dist/css`));
+        },
+
+        fontawesomeWebfonts: function(cb) {
+            return src("node_modules/@fortawesome/fontawesome-free/webfonts/*")
+                   .pipe(dest(`${__dirname}/dist/webfonts`));
+        }
+
+    }
+}
+
 
 exports.default = parallel(
 
     // Project bundling
-    bundleJs, bundleScss, compileHaml,
+    bundleJs, bundleScss, copyImages, compileHaml,
 
     // Dependencies
     bootstrap().bJs,
-    bootstrap().bCss,
 
     bootstrap().jqJs,
 
-    bootstrap().pJs
+    bootstrap().pJs,
+
+    //Fontawesome
+    fortawesome().fontawesomeBrands,
+
+    fortawesome().fontawesomeWebfonts
 
 );
